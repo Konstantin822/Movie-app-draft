@@ -1,0 +1,17 @@
+// Global
+@import './global/global.scss';
+@import './global/reset.scss';
+
+// Common 
+@import './common/header.scss';
+
+// Pages
+@import './pages/home.scss';
+
+// Component
+@import './component/carousel.scss';
+@import './component//frame.scss';
+
+// Variables
+@import './variables/color.scss';
+@import './variables/fonts.scss';

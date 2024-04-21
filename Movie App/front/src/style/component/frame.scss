@@ -1,0 +1,31 @@
+.movie-frame {
+    position: absolute;
+    content: '';
+    top: 125px;
+    left: 100px;
+    right: 100px;
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+}
+
+.movie-frame iframe {
+    max-width: 1280px;
+    max-height: 720px;
+}
+
+.movie-frame .frame-close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    cursor: pointer;
+    color: var(--color-white);
+}
+
+.movie-frame.active {
+    visibility: visible;
+}
