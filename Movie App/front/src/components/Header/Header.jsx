@@ -9,7 +9,6 @@ export default function Header() {
                     <ul>
                         <li className="active"><a href="#">Home</a></li>
                         <li><a href="">Genre</a></li>
-                        <li><a href="">Tag</a></li>
                         <li><a href="">Movie</a></li>
                         <li><a href="">TV Series</a></li>
                     </ul>

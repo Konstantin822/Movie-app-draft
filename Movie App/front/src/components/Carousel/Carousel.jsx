@@ -1,6 +1,4 @@
 import React from "react";
-import { useQuery } from "@apollo/client";
-import { GET_HOME_DATA } from '../../data/HomeData.jsx'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -8,16 +6,7 @@ import 'swiper/css/effect-coverflow';
 
 import { EffectCoverflow, Autoplay } from 'swiper/modules'
 
-export default function CardSwiper() {
-    // const { data, isLoading } = useFetch('http://localhost:1338/api/home-data-apis')
-    // console.log(data)
-    // const card = data.map(item => 
-    // )
-
-    const { loading, error, data } = useQuery(GET_HOME_DATA);
-    if (loading) return <p>Loading...</p>
-    if (error) return <p>Error: {error.message}</p>
-    console.log(data)
+export default function Carousel({ data, apiUrl }) {
 
     return (
         <Swiper
@@ -26,7 +15,7 @@ export default function CardSwiper() {
             centeredSlides={true}
             slidesPerView={'auto'}
             autoplay={{
-                delay: 2500,
+                delay: 3000,
                 disableOnInteraction: false,
             }}
             coverflowEffect={{
@@ -40,13 +29,13 @@ export default function CardSwiper() {
             modules={[EffectCoverflow, Autoplay]}
             className="cardSwiper"
         >
-            {data.homeDataApis.data.map(item => (
-                <SwiperSlide>
-                    <img src={item.attributes.img.data.attributes.url} alt="Image" />
-                </SwiperSlide>))}
-            {/* <SwiperSlide>
-                <img src="/images/creator.jpg" alt="Image" />
-            </SwiperSlide> */}
+            {
+                data.homeDataApis.data.map(item => (
+                    <SwiperSlide key={item.id}>
+                        <img src={`${apiUrl}${item.attributes.img.data.attributes.url}`} alt="Image" />
+                    </SwiperSlide>
+                ))
+            }
         </Swiper>
     );
 }

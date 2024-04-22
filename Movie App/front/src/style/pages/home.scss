@@ -53,6 +53,14 @@
         margin: 20px 0;
     }
 
+    &__card-desc3 {
+        font: var(--home-hero-card-desc2-font);
+        color: var(--color-white);
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
     &__buttons {
         display: flex;
         gap: 20px;

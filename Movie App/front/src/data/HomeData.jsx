@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const GET_HOME_DATA = gql`
 query GetHome {
-    homeDataApis {
+    homeDataApis(pagination: {pageSize: 21}) {
       data {
         id
         attributes {
