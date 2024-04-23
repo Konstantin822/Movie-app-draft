@@ -1,56 +1,69 @@
-import React from "react";
-
-import { useQuery } from "@apollo/client";
-import { GET_HOME_DATA } from '../../data/HomeData.jsx'
+import React, { useState, useEffect } from "react";
+import { homeData } from "../../data/homeData.js";
 
 import Carousel from '../../components/Carousel/Carousel.jsx';
 import Frame from '../../components/Frame/Frame.jsx';
 
-const API_URL = 'http://localhost:1338'
-
 export default function Home() {
+    const [data, setData] = useState([])
+    const [frame, setFrame] = useState(false)
 
-    const { loading, error, data } = useQuery(GET_HOME_DATA);
+    useEffect(() => {
+        setData(homeData.cards)
+    }, [])
 
-    if (loading) return <p>Loading...</p>
-    if (error) return <p>Error: {error.message}</p>
+    const cardChange = id => {
+        const newCards = data.map(item => {
+            item.active = false
+            if (item.id === id) {
+                item.active = true
+            }
+            return item
+        })
+        setData(newCards)
+    }
 
-    console.log(data)
-
+    const toggleFrame = () => {
+        setFrame(!frame)
+    }
     return (
         <>
             <section className="hero">
                 <div className="container hero__container">
-                    <img src="/covers/kong.jpeg" alt="Background Image" className="hero__bg" />
-                    <div className="hero__card">
-                        <h1 className="hero__card-title">Title</h1>
-                        <h4 className="hero__card-desc1">
-                            <span>type</span>
-                            <span>rating</span>
-                            <span>date</span>
-                            <span>time</span>
-                            <span>genre</span>
-                        </h4>
-                        <p className="hero__card-desc2">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                            Necessitatibus eum mollitia quam corporis quaerat earum totam vitae odit, eligendi, id consequuntur magni facilis asperiores placeat suscipit cupiditate perferendis consectetur voluptates?
-                        </p>
-                        <h4 className="hero__card-desc3">
-                            <span>Tags:</span>
-                            <span>Starring:</span>
-                        </h4>
-                        <div className="hero__buttons">
-                            <a href="#" className="hero__buttons-btn">Watch trailer</a>
-                            <a href="" className="hero__buttons-btn">Watch video</a>
+                    {data && data.length > 0 && data.map(item => (
+                        <div key={item.id} className={`hero__card ${item.active ? 'active' : undefined}`}>
+                            <img src={item.cover} alt="Background Image" className={`hero__bg ${item.active ? 'active' : undefined}`} />
+                            <h1 className="hero__card-title">{item.name}</h1>
+                            <h4 className="hero__card-desc1">
+                                <p>{item.type}</p>
+                                <p>{item.rating}</p>
+                                <p>{item.date}</p>
+                                <p>{item.time}</p>
+                                <p>{item.genre}</p>
+                            </h4>
+                            <p className="hero__card-desc2">
+                                {item.desc}
+                            </p>
+                            {item.tags.map(tag => (
+                                <h4 className="hero__card-desc3">
+                                    <p>Tags:
+                                        <span>{tag.tag1},</span>
+                                        <span>{tag.tag2},</span>
+                                        <span>{tag.tag3}</span>
+                                    </p>
+                                    <p>Starring:<span>{item.starring}</span></p>
+                                </h4>
+                            ))}
+                            <a href="#" className={`hero__btn ${data.active ? 'active' : undefined}`} onClick={toggleFrame}>Watch trailer</a>
+                            {data.active && <Frame media={data} toggleFrame={toggleFrame} />}
                         </div>
-                        <Frame />
-                    </div>
+                    ))}
                 </div>
             </section>
 
             <section className="carousel">
                 <div className="container carousel__container">
-                    <Carousel data={data} apiUrl={API_URL} />
+                    {data && data.length > 0 && <Carousel cards={data} status={frame} cardsChange={cardChange} />}
                 </div>
             </section>
         </>

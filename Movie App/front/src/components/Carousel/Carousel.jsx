@@ -6,7 +6,7 @@ import 'swiper/css/effect-coverflow';
 
 import { EffectCoverflow, Autoplay } from 'swiper/modules'
 
-export default function Carousel({ data, apiUrl }) {
+export default function Carousel({ cards, cardsChange }) {
 
     return (
         <Swiper
@@ -30,12 +30,14 @@ export default function Carousel({ data, apiUrl }) {
             className="cardSwiper"
         >
             {
-                data.homeDataApis.data.map(item => (
+                cards.map(item => (
                     <SwiperSlide key={item.id}>
-                        <img src={`${apiUrl}${item.attributes.img.data.attributes.url}`} alt="Image" />
+                        <img src={item.img}
+                            alt="Image"
+                            onClick={() => cardsChange(item.id)}
+                        />
                     </SwiperSlide>
-                ))
-            }
+                ))}
         </Swiper>
     );
 }
